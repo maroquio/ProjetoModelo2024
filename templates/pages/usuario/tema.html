@@ -5,7 +5,7 @@
 <h1>Tema do Site</h1>
 <hr>
 <form action="/usuario/tema" method="post" class="col-12 col-md-6">
-    {{ input_select("tema", "Tema", temas, tema_selecionado) }}
+    {{ input_select("tema", "Tema", temas, tema_selecionado, value=usuario.tema) }}
     <button type="submit" class="btn btn-primary mt-3">Salvar Tema</button>
 </form>
 {% endblock %}

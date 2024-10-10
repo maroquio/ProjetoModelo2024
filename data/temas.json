@@ -1,0 +1,106 @@
+[
+    {
+        "nome": "Padrão",
+        "tema": "default"
+    },
+    {
+        "nome": "Cerulean",
+        "tema": "cerulean"
+    },
+    {
+        "nome": "Cosmo",
+        "tema": "cosmo"
+    },
+    {
+        "nome": "Cyborg",
+        "tema": "cyborg"
+    },
+    {
+        "nome": "Darkly",
+        "tema": "darkly"
+    },
+    {
+        "nome": "Flatly",
+        "tema": "flatly"
+    },
+    {
+        "nome": "Journal",
+        "tema": "journal"
+    },
+    {
+        "nome": "Litera",
+        "tema": "litera"
+    },
+    {
+        "nome": "Lumen",
+        "tema": "lumen"
+    },
+    {
+        "nome": "Lux",
+        "tema": "lux"
+    },
+    {
+        "nome": "Materia",
+        "tema": "materia"
+    },
+    {
+        "nome": "Minty",
+        "tema": "minty"
+    },
+    {
+        "nome": "Morph",
+        "tema": "morph"
+    },
+    {
+        "nome": "Pulse",
+        "tema": "pulse"
+    },
+    {
+        "nome": "Quartz",
+        "tema": "quartz"
+    },
+    {
+        "nome": "Sandstone",
+        "tema": "sandstone"
+    },
+    {
+        "nome": "Simplex",
+        "tema": "simplex"
+    },
+    {
+        "nome": "Sketchy",
+        "tema": "sketchy"
+    },
+    {
+        "nome": "Slate",
+        "tema": "slate"
+    },
+    {
+        "nome": "Solar",
+        "tema": "solar"
+    },
+    {
+        "nome": "Spacelab",
+        "tema": "spacelab"
+    },
+    {
+        "nome": "Superhero",
+        "tema": "superhero"
+    },
+    {
+        "nome": "United",
+        "tema": "united"
+    },
+    {
+        "nome": "Vapor",
+        "tema": "vapor"
+    },
+    {
+        "nome": "Yeti",
+        "tema": "yeti"
+    },
+    {
+        "nome": "Zephyr",
+        "tema": "zephyr"
+    }
+] 
