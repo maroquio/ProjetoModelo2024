@@ -1,25 +1,27 @@
 {% extends "shared/base_publica.html" %}
 {% block subtitulo %}Entrar{% endblock %}
 {% block conteudo %}
-<div class="col-6">
+<div class="w-100 d-flex justify-content-center">
     <form action="/entrar" method="post">
         <div class="card">
             <div class="card-header">
                 <h3>Entrar</h3>
             </div>
             <div class="card-body pb-0">
-                <div class="floating-label">
-                    <input type="email" name="email" id="email" class="form-control" required>
+                <div class="form-floating mb-3">
+                    <input type="email" name="email" id="email" class="form-control" required autofocus placeholder=" ">
                     <label for="email">E-mail</label>
                 </div>
-                <div class="floating-label">
-                    <input type="password" name="senha" id="senha" class="form-control" required>
+                <div class="form-floating mb-3">
+                    <input type="password" name="senha" id="senha" class="form-control" required placeholder=" ">
                     <label for="senha">Senha</label>
                 </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Entrar</button><br>
-                <a href="/registrar" class="btn btn-link">Registrar</a>
+            <div class="card-footer p-3">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <p class="mt-2 mb-0">
+                    Ainda não se cadastrou? <a href="/cadastrar" class="text-decoration-none">Clique aqui</a> para se cadastrar agora.
+                </p>
             </div>
         </div>
     </form>
