@@ -1,0 +1,11 @@
+{% extends "shared/base_publica.html" %}
+{% from "shared/macros.html" import input_select %}
+{% block subtitulo %}Tema do Site{% endblock %}
+{% block conteudo %}
+<h1>Tema do Site</h1>
+<hr>
+<form action="/usuario/tema" method="post" class="col-12 col-md-6">
+    {{ input_select("tema", "Tema", temas, tema_selecionado) }}
+    <button type="submit" class="btn btn-primary mt-3">Salvar Tema</button>
+</form>
+{% endblock %}
