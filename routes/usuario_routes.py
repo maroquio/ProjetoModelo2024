@@ -1,10 +1,12 @@
+from datetime import date
 from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from models.usuario_model import Usuario
 from repositories.usuario_repo import UsuarioRepo
 from util.auth import remover_token_jwt
-from util.mensagens import adicionar_mensagem_erro
+from util.mensagens import adicionar_mensagem_erro, adicionar_mensagem_sucesso
 
 
 router = APIRouter(prefix="/usuario")
@@ -46,7 +48,24 @@ async def get_dados(request: Request):
 
 @router.post("/dados")
 async def post_dados(request: Request):
-    return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+    dados = dict(await request.form())
+    usuarioAutenticadoDto = (
+        request.state.usuario if hasattr(request.state, "usuario") else None
+    )
+    dados["id"] = usuarioAutenticadoDto.id
+    dados["data_nascimento"] = date.fromisoformat(dados["data_nascimento"])
+    usuario = Usuario(**dados)
+    if UsuarioRepo.atualizar_dados(usuario):
+        response = RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_sucesso(response, "Cadastro atualizado com sucesso!")
+        return response
+    else:
+        response = RedirectResponse("/usuario/dados", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(
+            response,
+            "Ocorreu um problema ao atualizar seu cadastro. Tente novamente mais tarde.",
+        )
+        return response
 
 
 @router.get("/senha")
