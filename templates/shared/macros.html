@@ -28,7 +28,7 @@
 
 {% macro input_textarea(name, label, attributes='', value='') %}
 <div class="form-floating mb-3">
-    <textarea name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} style="height:3rem;">{{value|e}}</textarea>
+    <textarea name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} style="height:6rem;">{{value|e}}</textarea>
     <label for="{{name}}">{{label}}</label>
 </div>
 {% endmacro %}
@@ -37,10 +37,10 @@
 <div class="form-floating mb-3">
     <select name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
         <option value="" {{"selected" if not value}}>Escolha uma opção...</option>
-        {%- for option in options -%}
+        {% for option in options %}
         {%- set selected = "selected" if option.value == value -%}
         <option value="{{option.value}}" {{selected}}>{{option.label}}</option>
-        {%- endfor -%}
+        {% endfor %}
     </select>
     <label for="{{name}}">{{label}}</label>
 </div>
@@ -51,15 +51,15 @@
     <legend class="text-secondary" style="font-size:13px">{{label}}</legend>
     {% for option in options %}
     {%- set checked = "checked" if option.value == value -%}
-    <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
-    <label class="btn btn-outline-success" for="{{name}}{{index}}">{{option.label}}</label>
+    <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{loop.index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
+    <label class="btn btn-outline-success" for="{{name}}{{loop.index}}">{{option.label}}</label>
     {% endfor %}
 </fieldset>
 {% endmacro %}
 
-{% macro input_switch(name, label, attributes='', value='') %}
-{%- set checked = "checked" if valor else "" -%}
-<div class="form-check form-switch">
+{%- macro input_switch(name, label, attributes='', value='') -%}
+{% set checked = "checked" if valor else "" %}
+<div class="form-check form-switch mb-3">
     <input class="form-check-input" type="checkbox" role="switch" id="{{name}}" name="{{name}}" {{checked}}>
     <label class="form-check-label" for="{{name}}">{{label}}</label>
 </div>
