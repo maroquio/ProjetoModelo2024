@@ -1,0 +1,13 @@
+{% macro input_email(name, label, attributes='', value='') %}
+<div class="form-floating mb-3">
+    <input type="email" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
+    <label for="{{name}}">{{label}}</label>
+</div>
+{% endmacro %}
+
+{% macro input_password(name, label, attributes='') %}
+<div class="form-floating mb-3">
+    <input type="password" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
+    <label for="{{name}}">{{label}}</label>
+</div>
+{% endmacro %}
