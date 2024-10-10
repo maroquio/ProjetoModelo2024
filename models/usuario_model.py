@@ -5,11 +5,11 @@ from typing import Optional
 
 @dataclass
 class Usuario:
-    id: Optional[int]
-    nome: Optional[str]
-    data_nascimento: Optional[date]
-    email: Optional[str]
-    telefone: Optional[str]
-    senha: Optional[str]
-    perfil: Optional[int]
-    tema: Optional[str]
+    id: Optional[int] = None
+    nome: Optional[str] = None
+    data_nascimento: Optional[date] = None
+    email: Optional[str] = None
+    telefone: Optional[str] = None
+    senha: Optional[str] = None
+    perfil: Optional[int] = None
+    tema: Optional[str] = None
