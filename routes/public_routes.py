@@ -17,6 +17,17 @@ async def get_entrar(request: Request):
     return templates.TemplateResponse("pages/entrar.html", {"request": request})
 
 
+@router.get("/cadastrar")
+async def get_entrar(request: Request):
+    perfis = [
+        {"value": 1, "label": "Aluno"},
+        {"value": 2, "label": "Professor"},
+    ]
+    return templates.TemplateResponse(
+        "pages/cadastrar.html", {"request": request, "perfis": perfis}
+    )
+
+
 @router.get("/testemacros")
 async def get_testarmacros(request: Request):
     estados_civis = [
@@ -25,4 +36,6 @@ async def get_testarmacros(request: Request):
         {"value": 3, "label": "Divorciado(a)"},
         {"value": 4, "label": "Viúvo(a)"},
     ]
-    return templates.TemplateResponse("pages/teste_macros.html", {"request": request, "estados_civis": estados_civis})
+    return templates.TemplateResponse(
+        "pages/teste_macros.html", {"request": request, "estados_civis": estados_civis}
+    )

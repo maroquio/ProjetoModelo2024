@@ -1,0 +1,31 @@
+{% extends "shared/base_publica.html" %}
+{% from "shared/macros.html" import input_text, input_date, input_email, input_password, input_radios %}
+{% block subtitulo %}Cadastrar{% endblock %}
+{% block conteudo %}
+<div class="w-100 d-flex justify-content-center">
+    <form action="/cadastrar" method="post" class="col-12 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Cadastrar</h3>
+            </div>
+            <div class="card-body pb-0">
+                <div class="row g-3">
+                    {{ input_text("nome", "Nome Completo", "required autofocus", div_classes="col-12 col-lg-6") }}
+                    {{ input_date("data_nascimento", "Data de Nascimento", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_email("email", "E-mail", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_text("telefone", "Telefone", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_password("senha", "Senha", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_password("confirmacao_senha", "Confirmação de Senha", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_radios("perfil", "Perfil", perfis, "required", div_classes="col-12 col-lg-6") }}
+                </div>
+            </div>
+            <div class="card-footer p-3 mt-3">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <p class="mt-2 mb-0">
+                    Já é cadastrado? <a href="/entrar" class="text-decoration-none">Clique aqui</a> para entrar agora.
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

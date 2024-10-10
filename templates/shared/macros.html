@@ -1,66 +1,82 @@
-{% macro input_text(name, label, attributes='', value='') %}
-<div class="form-floating mb-3">
-    <input type="text" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
-    <label for="{{name}}">{{label}}</label>
+{% macro input_text(name, label, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <input type="text" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
+        <label for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
 
-{% macro input_email(name, label, attributes='', value='') %}
-<div class="form-floating mb-3">
-    <input type="email" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
-    <label for="{{name}}">{{label}}</label>
+{% macro input_email(name, label, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <input type="email" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
+        <label for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
 
-{% macro input_date(name, label, attributes='', value='') %}
-<div class="form-floating mb-3">
-    <input type="date" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
-    <label for="{{name}}">{{label}}</label>
+{% macro input_date(name, label, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <input type="date" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} value="{{value|e}}">
+        <label for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
 
-{% macro input_password(name, label, attributes='') %}
-<div class="form-floating mb-3">
-    <input type="password" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
-    <label for="{{name}}">{{label}}</label>
+{% macro input_password(name, label, attributes='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <input type="password" name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
+        <label for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
 
-{% macro input_textarea(name, label, attributes='', value='') %}
-<div class="form-floating mb-3">
-    <textarea name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} style="height:6rem;">{{value|e}}</textarea>
-    <label for="{{name}}">{{label}}</label>
+{% macro input_textarea(name, label, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <textarea name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}} style="height:6rem;">{{value|e}}</textarea>
+        <label for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
 
-{% macro input_select(name, label, options, attributes='', value='') %}
-<div class="form-floating mb-3">
-    <select name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
-        <option value="" {{"selected" if not value}}>Escolha uma opção...</option>
+{% macro input_select(name, label, options, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <div class="form-floating">
+        <select name="{{name}}" id="{{name}}" class="form-control" placeholder=" " {{attributes|safe}}>
+            <option value="" {{"selected" if not value}}>Escolha uma opção...</option>
+            {% for option in options %}
+            {%- set selected = "selected" if option.value == value -%}
+            <option value="{{option.value}}" {{selected}}>{{option.label}}</option>
+            {% endfor %}
+        </select>
+        <label for="{{name}}">{{label}}</label>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro input_radios(name, label, options, attributes='', value='', div_classes='') %}
+<div class="{{div_classes}}">
+    <fieldset class="border rounded-2" style="padding: .75rem">
+        <legend class="text-secondary" style="font-size:13px">{{label}}</legend>
         {% for option in options %}
-        {%- set selected = "selected" if option.value == value -%}
-        <option value="{{option.value}}" {{selected}}>{{option.label}}</option>
+        {%- set checked = "checked" if option.value == value -%}
+        <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{loop.index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
+        <label class="btn btn-outline-success" for="{{name}}{{loop.index}}">{{option.label}}</label>
         {% endfor %}
-    </select>
-    <label for="{{name}}">{{label}}</label>
+    </fieldset>
 </div>
 {% endmacro %}
 
-{% macro input_radios(name, label, options, attributes='', value='') %}
-<fieldset class="border rounded-2 mb-3" style="padding: .75rem">
-    <legend class="text-secondary" style="font-size:13px">{{label}}</legend>
-    {% for option in options %}
-    {%- set checked = "checked" if option.value == value -%}
-    <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{loop.index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
-    <label class="btn btn-outline-success" for="{{name}}{{loop.index}}">{{option.label}}</label>
-    {% endfor %}
-</fieldset>
-{% endmacro %}
-
-{%- macro input_switch(name, label, attributes='', value='') -%}
+{%- macro input_switch(name, label, attributes='', value='', div_classes='') -%}
 {% set checked = "checked" if valor else "" %}
-<div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" role="switch" id="{{name}}" name="{{name}}" {{checked}}>
-    <label class="form-check-label" for="{{name}}">{{label}}</label>
+<div class="{{div_classes}}">
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="{{name}}" name="{{name}}" {{checked}}>
+        <label class="form-check-label" for="{{name}}">{{label}}</label>
+    </div>
 </div>
 {% endmacro %}
