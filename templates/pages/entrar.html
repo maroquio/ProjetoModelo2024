@@ -4,6 +4,7 @@
 {% block conteudo %}
 <div class="w-100 d-flex justify-content-center">
     <form action="/entrar" method="post">
+        {% include "includes/mensagem.html" with context %}
         <div class="card">
             <div class="card-header">
                 <h3>Entrar</h3>

@@ -2,6 +2,8 @@ from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from util.mensagens import adicionar_mensagem_sucesso
+
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -25,7 +27,9 @@ async def get_entrar(request: Request):
 
 @router.post("/cadastrar")
 async def post_cadastrar(request: Request):
-    return RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+    adicionar_mensagem_sucesso(response, "Cadastro realizado com sucesso!")
+    return response
 
 
 @router.get("/entrar")
@@ -35,7 +39,9 @@ async def get_entrar(request: Request):
 
 @router.post("/entrar")
 async def post_entrar(request: Request):
-    return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+    adicionar_mensagem_sucesso(response, "Entrada realizada com sucesso!")
+    return response
 
 
 @router.get("/404")
