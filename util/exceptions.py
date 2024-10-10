@@ -20,6 +20,17 @@ def tratar_excecoes(app: FastAPI):
         )
         return response
 
+    @app.exception_handler(403)
+    async def forbidden_exception_handler(request, exc):
+        usuarioAutenticadoDto = request.state.usuario
+        return_url = f"?return_url={request.url.path}"
+        response = RedirectResponse(f"/entrar{return_url}")
+        adicionar_mensagem_erro(
+            response,
+            f"Você está logado como {usuarioAutenticadoDto.nome} e seu perfil de usuário não tem permissão para acessar a página do endereço {request.url.path}. Entre com as credenciais de um perfil compatível.",
+        )
+        return response
+
     @app.exception_handler(404)
     async def not_found_exception_handler(request, exc):
         return templates.TemplateResponse(
