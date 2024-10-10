@@ -12,9 +12,30 @@ async def get_root(request: Request):
     return RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
 
 
+@router.get("/cadastrar")
+async def get_entrar(request: Request):
+    perfis = [
+        {"value": 1, "label": "Aluno"},
+        {"value": 2, "label": "Professor"},
+    ]
+    return templates.TemplateResponse(
+        "pages/cadastrar.html", {"request": request, "perfis": perfis}
+    )
+
+
+@router.post("/cadastrar")
+async def post_cadastrar(request: Request):
+    return RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+
+
 @router.get("/entrar")
 async def get_entrar(request: Request):
     return templates.TemplateResponse("pages/entrar.html", {"request": request})
+
+
+@router.post("/entrar")
+async def post_entrar(request: Request):
+    return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
 
 
 @router.get("/404")
@@ -25,17 +46,6 @@ async def get_not_found(request: Request):
 @router.get("/erro")
 async def get_not_found(request: Request):
     return templates.TemplateResponse("pages/erro.html", {"request": request})
-
-
-@router.get("/cadastrar")
-async def get_entrar(request: Request):
-    perfis = [
-        {"value": 1, "label": "Aluno"},
-        {"value": 2, "label": "Professor"},
-    ]
-    return templates.TemplateResponse(
-        "pages/cadastrar.html", {"request": request, "perfis": perfis}
-    )
 
 
 @router.get("/testemacros")

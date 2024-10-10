@@ -1,0 +1,16 @@
+{% extends "shared/base_privada.html" %}
+{% from "shared/macros.html" import input_text, input_date, input_email %}
+{% block subtitulo %}Meus Dados{% endblock %}
+{% block conteudo %}
+<h1>Meus Dados</h1>
+<hr>
+<form action="/usuario/dados" method="post" class="col-12 col-lg-6">
+    <div class="row g-3 mb-3">
+        {{ input_text("nome", "Nome Completo", "required autofocus", div_classes="col-12 col-lg-6") }}
+        {{ input_date("data_nascimento", "Data de Nascimento", "required", div_classes="col-12 col-lg-6") }}
+        {{ input_email("email", "E-mail", "required", div_classes="col-12 col-lg-6") }}
+        {{ input_text("telefone", "Telefone", "required", div_classes="col-12 col-lg-6") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar Dados</button>
+</form>
+{% endblock %}
