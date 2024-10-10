@@ -17,6 +17,11 @@ async def get_entrar(request: Request):
     return templates.TemplateResponse("pages/entrar.html", {"request": request})
 
 
+@router.get("/notfound")
+async def get_not_found(request: Request):
+    return templates.TemplateResponse("pages/404.html", {"request": request})
+
+
 @router.get("/cadastrar")
 async def get_entrar(request: Request):
     perfis = [
