@@ -13,6 +13,7 @@ def criar_token_jwt(usuarioAutenticadoDto: UsuarioAutenticadoDto) -> str:
         "nome": usuarioAutenticadoDto.nome,
         "email": usuarioAutenticadoDto.email,
         "perfil": usuarioAutenticadoDto.perfil,
+        "tema": usuarioAutenticadoDto.tema,
         "exp": datetime.now() + timedelta(days=1)
     }
     secret_key = os.getenv("JWT_TOKEN_SECRET_KEY")

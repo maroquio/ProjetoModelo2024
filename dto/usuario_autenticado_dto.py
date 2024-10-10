@@ -8,3 +8,4 @@ class UsuarioAutenticadoDto:
     nome: Optional[str] = None
     email: Optional[str] = None
     perfil: Optional[int] = None
+    tema: Optional[str] = None

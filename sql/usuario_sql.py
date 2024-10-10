@@ -16,10 +16,16 @@ SQL_INSERIR = """
     VALUES (?, ?, ?, ?, ?, ?, "default")
 """
 
-SQL_CHECAR_CREDENCIAIS = """
+SQL_OBTER_SENHA_POR_EMAIL = """
+    SELECT senha
+    FROM usuario
+    WHERE email = ?
+"""
+
+SQL_OBTER_DADOS_POR_EMAIL = """
     SELECT id, nome, email, perfil, tema
     FROM usuario
-    WHERE email = ? AND senha = ?
+    WHERE email = ?
 """
 
 SQL_ATUALIZAR_DADOS = """

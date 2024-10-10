@@ -4,8 +4,10 @@ from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from dto.usuario_autenticado_dto import UsuarioAutenticadoDto
 from models.usuario_model import Usuario
 from repositories.usuario_repo import UsuarioRepo
+from util.auth import adicionar_token_jwt, criar_token_jwt
 from util.mensagens import adicionar_mensagem_erro, adicionar_mensagem_sucesso
 
 
@@ -52,7 +54,8 @@ async def post_cadastrar(request: Request):
         adicionar_mensagem_erro(response, html)
         return response
     # criptografar a senha com bcrypt
-    dados["senha"] = bcrypt.hashpw(dados["senha"].encode(), bcrypt.gensalt())
+    senha_hash = bcrypt.hashpw(dados["senha"].encode(), bcrypt.gensalt())
+    dados["senha"] = senha_hash.decode()
     # criar um objeto Usuario com os dados do dicionário
     usuario = Usuario(**dados)
     # inserir o objeto Usuario no banco de dados usando o repositório
@@ -79,9 +82,33 @@ async def get_entrar(request: Request):
 
 @router.post("/entrar")
 async def post_entrar(request: Request):
-    response = RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
-    adicionar_mensagem_sucesso(response, "Entrada realizada com sucesso!")
-    return response
+    dados = dict(await request.form())
+    email = dados["email"]
+    senha = dados["senha"]
+    senha_hash = UsuarioRepo.obter_senha_por_email(email)
+    if senha_hash and bcrypt.checkpw(senha.encode(), senha_hash.encode()):
+        usuario = UsuarioRepo.obter_dados_por_email(email)
+        usuarioAutenticadoDto = UsuarioAutenticadoDto(
+            id=usuario.id,
+            nome=usuario.nome,
+            email=usuario.email,
+            perfil=usuario.perfil,
+            tema=usuario.tema,
+        )
+        token = criar_token_jwt(usuarioAutenticadoDto)
+        nome_perfil = None
+        match(usuarioAutenticadoDto.perfil):
+            case 1: nome_perfil = "aluno"
+            case 2: nome_perfil = "professor"
+            case _: nome_perfil = ""
+        response = RedirectResponse(f"/{nome_perfil}", status.HTTP_303_SEE_OTHER)
+        adicionar_token_jwt(response, token)
+        adicionar_mensagem_sucesso(response, "Login realizado com sucesso!")
+        return response
+    else:
+        response = RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(response, "Credenciais inválidas! Cheque os valores digitados e tente novamente.")
+        return response
 
 
 @router.get("/404")

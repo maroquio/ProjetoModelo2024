@@ -33,14 +33,24 @@ class UsuarioRepo:
             return usuario
 
     @staticmethod
-    def checar_credenciais(email: str, senha: str) -> Optional[Usuario]:
+    def obter_senha_por_email(email: str) -> Optional[str]:
         with obter_conexao() as db:
             cursor = db.cursor()
-            cursor.execute(SQL_CHECAR_CREDENCIAIS, (email, senha))
-            usuario = cursor.fetchone()
-            if usuario is None:
+            cursor.execute(SQL_OBTER_SENHA_POR_EMAIL, (email,))
+            dados = cursor.fetchone()
+            if dados is None:
                 return None
-            return Usuario(**usuario)
+            return dados["senha"]
+
+    @staticmethod
+    def obter_dados_por_email(email: str) -> Optional[Usuario]:
+        with obter_conexao() as db:
+            cursor = db.cursor()
+            cursor.execute(SQL_OBTER_DADOS_POR_EMAIL, (email,))
+            dados = cursor.fetchone()
+            if dados is None:
+                return None
+            return Usuario(**dados)
 
     @staticmethod
     def atualizar_dados(usuario: Usuario) -> bool:

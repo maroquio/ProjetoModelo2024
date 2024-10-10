@@ -2,7 +2,7 @@ def adicionar_mensagem(response, mensagem, tipo):
     response.set_cookie(
         key=f"mensagem_{tipo}",
         value=mensagem,
-        max_age=1,
+        max_age=3,
         httponly=True,
         samesite="strict",
     )
