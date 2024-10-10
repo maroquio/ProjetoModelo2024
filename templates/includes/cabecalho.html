@@ -12,11 +12,20 @@
                     <a class="nav-item nav-link" href="/usuario/tema">Tema</a>
                     <span class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>Olá, Fulano de Tal.</b>
+                            <b>Olá, {{ usuario.nome }}.</b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/usuario/dados">Meus Dados</a></li>
                             <li><a class="dropdown-item" href="/usuario/senha">Minha Senha</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {%- if is_aluno -%}
+                            <li><a class="dropdown-item" href="/aluno/notas">Minhas Notas</a></li>
+                            {%- endif -%}
+                            {%- if is_professor -%}
+                            <li><a class="dropdown-item" href="/professor/turmas">Minhas Turmas</a></li>
+                            {%- endif -%}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

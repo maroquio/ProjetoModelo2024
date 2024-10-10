@@ -10,6 +10,10 @@
 </head>
 
 <body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
+    {%- set usuario = request.state.usuario -%}
+    {%- set is_aluno = True if usuario and usuario.perfil == 1 -%}
+    {%- set is_professor = True if usuario and usuario.perfil == 2 -%}
+    {%- set is_autenticado = is_aluno or is_professor -%}
     {% include "includes/cabecalho.html" %}
     <main class="container">
         {% include "includes/mensagem.html" with context %}
