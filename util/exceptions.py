@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
@@ -36,3 +36,22 @@ def tratar_excecoes(app: FastAPI):
         return templates.TemplateResponse(
             "pages/404.html", {"request": request}, status_code=404
         )
+
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request, exc):
+        dados = {
+            "request": request, 
+            "detail": f"Erro na requisição HTTP:<br>{type(exc).__name__}: {exc}",
+            "status_code": exc.status_code
+        }
+        return templates.TemplateResponse(
+            "pages/erro.html", dados)
+
+    @app.exception_handler(Exception)
+    async def general_exception_handler(request, exc):
+        dados = {
+            "request": request,
+            "detail": f"Erro interno do servidor.<br>{type(exc).__name__}: {exc}",
+            "status_code": 500
+        }
+        return templates.TemplateResponse("pages/erro.html", dados)

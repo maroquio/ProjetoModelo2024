@@ -8,9 +8,12 @@
         <p class="lead">
             Ocorreu um problema inesperado no servidor. Nossa equipe de suporte já foi notificada e irá resolver o problema o mais rápido possível. Tente realizar a ação novamente mais tarde.
         </p>
-        {% if details %}
-        <h3>Detalhes do Erro:</h3>
-        <p>{{details|safe}}</p>
+        {% if status_code %}
+        <h5>Código do Erro: {{status_code}}</h5>        
+        {% endif %}
+        {% if detail %}
+        <h5>Detalhes do Erro:</h5>
+        <p>{{detail|safe}}</p>
         {% endif %}
     </div>
 </div>

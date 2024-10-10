@@ -86,7 +86,7 @@ async def post_cadastrar(request: Request):
 
 @router.get("/entrar")
 async def get_entrar(request: Request):
-    return templates.TemplateResponse("pages/entrar.html", {"request": request})
+    return templates.TemplateResponse("pages/entrar.html", {"request": requesti})
 
 
 @router.post("/entrar")
