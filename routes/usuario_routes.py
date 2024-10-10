@@ -38,6 +38,16 @@ async def post_dados(request: Request):
     return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
 
 
+@router.get("/senha")
+async def get_senha(request: Request):
+    return templates.TemplateResponse("pages/usuario/senha.html", {"request": request})
+
+
+@router.post("/senha")
+async def post_senha(request: Request):
+    return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+
+
 @router.get("/sair")
 async def get_sair(request: Request):
     return RedirectResponse("/", status.HTTP_303_SEE_OTHER)

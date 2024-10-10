@@ -1,0 +1,15 @@
+{% extends "shared/base_privada.html" %}
+{% from "shared/macros.html" import input_password %}
+{% block subtitulo %}Minha Senha{% endblock %}
+{% block conteudo %}
+<h1>Minha Senha</h1>
+<hr>
+<form action="/usuario/senha" method="post" class="col-12 col-md-4 col-lg-3">
+    <div class="row g-3 mb-3">
+        {{ input_password("senha_atual", "Senha Atual", "required", div_classes="col-12") }}
+        {{ input_password("nova_senha", "Nova Senha", "required", div_classes="col-12") }}
+        {{ input_password("confirmacao_nova_senha", "Confirmação da Nova Senha", "required", div_classes="col-12") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Alterar Senha</button>
+</form>
+{% endblock %}
