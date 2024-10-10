@@ -1,12 +1,10 @@
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from routes.public_routes import router as public_router
 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get("/")
-async def get_root():
-    return HTMLResponse("<h1>Bem-vindo ao FastAPI</h1>")
+app.include_router(public_router)
