@@ -51,6 +51,16 @@ class UsuarioRepo:
             if dados is None:
                 return None
             return Usuario(**dados)
+        
+    @staticmethod
+    def obter_por_id(id: int) -> Optional[Usuario]:
+        with obter_conexao() as db:
+            cursor = db.cursor()
+            cursor.execute(SQL_OBTER_POR_ID, (id,))
+            dados = cursor.fetchone()
+            if dados is None:
+                return None
+            return Usuario(**dados)
 
     @staticmethod
     def atualizar_dados(usuario: Usuario) -> bool:

@@ -2,7 +2,9 @@ from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from repositories.usuario_repo import UsuarioRepo
 from util.auth import remover_token_jwt
+from util.mensagens import adicionar_mensagem_erro
 
 
 router = APIRouter(prefix="/usuario")
@@ -32,7 +34,14 @@ async def post_tema(request: Request):
 
 @router.get("/dados")
 async def get_dados(request: Request):
-    return templates.TemplateResponse("pages/usuario/dados.html", {"request": request})
+    usuarioAutenticadoDto = (
+        request.state.usuario if hasattr(request.state, "usuario") else None
+    )
+    usuario = UsuarioRepo.obter_por_id(usuarioAutenticadoDto.id)
+    return templates.TemplateResponse(
+        "pages/usuario/dados.html",
+        {"request": request, "dados": usuario},
+    )
 
 
 @router.post("/dados")

@@ -28,6 +28,12 @@ SQL_OBTER_DADOS_POR_EMAIL = """
     WHERE email = ?
 """
 
+SQL_OBTER_POR_ID = """
+    SELECT id, nome, data_nascimento, email, telefone, perfil, tema
+    FROM usuario
+    WHERE id = ?
+"""
+
 SQL_ATUALIZAR_DADOS = """
     UPDATE usuario
     SET nome = ?, data_nascimento = ?, email = ?, telefone = ?
