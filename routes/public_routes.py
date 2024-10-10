@@ -17,7 +17,16 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def get_root(request: Request):
-    return RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+    usuario = request.state.usuario if hasattr(request.state, "usuario") else None
+    if not usuario:
+        return RedirectResponse("/entrar", status.HTTP_303_SEE_OTHER)
+    nome_perfil = None
+    match(usuario.perfil):
+        case 1: nome_perfil = "aluno"
+        case 2: nome_perfil = "professor"
+        case _: nome_perfil = ""
+    response = RedirectResponse(f"/{nome_perfil}", status.HTTP_303_SEE_OTHER)
+    return response
 
 
 @router.get("/cadastrar")

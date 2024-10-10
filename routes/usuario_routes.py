@@ -2,6 +2,8 @@ from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from util.auth import remover_token_jwt
+
 
 router = APIRouter(prefix="/usuario")
 templates = Jinja2Templates(directory="templates")
@@ -50,4 +52,6 @@ async def post_senha(request: Request):
 
 @router.get("/sair")
 async def get_sair(request: Request):
-    return RedirectResponse("/", status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse("/", status.HTTP_303_SEE_OTHER)
+    remover_token_jwt(response)
+    return response
