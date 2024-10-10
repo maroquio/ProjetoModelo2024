@@ -1,4 +1,5 @@
 from datetime import date
+import bcrypt
 from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -75,7 +76,46 @@ async def get_senha(request: Request):
 
 @router.post("/senha")
 async def post_senha(request: Request):
-    return RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+    dados = dict(await request.form())
+    usuarioAutenticadoDto = (
+        request.state.usuario if hasattr(request.state, "usuario") else None
+    )
+    senha_atual = dados["senha_atual"]
+    nova_senha = dados["nova_senha"]
+    confirmacao_nova_senha = dados["confirmacao_nova_senha"]
+    senha_hash = UsuarioRepo.obter_senha_por_email(usuarioAutenticadoDto.email)
+    if not senha_hash or not bcrypt.checkpw(senha_atual.encode(), senha_hash.encode()):
+        response = RedirectResponse("/usuario/senha", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(
+            response, "Senha atual inválida! Cheque o valor digitado e tente novamente."
+        )
+        return response
+    if nova_senha != confirmacao_nova_senha:
+        response = RedirectResponse("/usuario/senha", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(
+            response,
+            "Nova senha e confirmação não conferem! Cheque os valores digitados e tente novamente.",
+        )
+        return response
+    if nova_senha == senha_atual:
+        response = RedirectResponse("/usuario/senha", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(
+            response,
+            "Nova senha deve ser diferente da senha atual! Cheque os valores digitados e tente novamente.",
+        )
+        return response
+    senha_hash = bcrypt.hashpw(nova_senha.encode(), bcrypt.gensalt())
+    if UsuarioRepo.atualizar_senha(usuarioAutenticadoDto.id, senha_hash.decode()):
+        response = RedirectResponse("/usuario", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_sucesso(response, "Senha atualizada com sucesso!")
+        return response
+    else:
+        response = RedirectResponse("/usuario/senha", status.HTTP_303_SEE_OTHER)
+        adicionar_mensagem_erro(
+            response,
+            "Ocorreu um problema ao atualizar sua senha. Tente novamente mais tarde.",
+        )
+        return response
 
 
 @router.get("/sair")
