@@ -62,11 +62,15 @@
 <div class="{{div_classes}}">
     <fieldset class="border rounded-2" style="padding: .75rem">
         <legend class="text-secondary" style="font-size:13px">{{label}}</legend>
-        {% for option in options %}
-        {%- set checked = "checked" if option.value == value -%}
-        <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{loop.index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
-        <label class="btn btn-outline-success" for="{{name}}{{loop.index}}">{{option.label}}</label>
-        {% endfor %}
+        <div class="row gx-3">
+            {% for option in options %}
+            {%- set checked = "checked" if option.value == value -%}
+            <div class="col">
+                <input type="radio" class="btn-check" name="{{name}}" id="{{name}}{{loop.index}}" value="{{option.value}}" autocomplete="off" {{checked}}>
+                <label class="btn btn-outline-secondary w-100" for="{{name}}{{loop.index}}">{{option.label|safe}}</label>
+            </div>
+            {% endfor %}
+        </div>
     </fieldset>
 </div>
 {% endmacro %}
