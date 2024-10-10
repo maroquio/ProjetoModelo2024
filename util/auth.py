@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import os
 from typing import Optional
 from fastapi import HTTPException, Request
@@ -12,6 +13,7 @@ def criar_token_jwt(usuarioAutenticadoDto: UsuarioAutenticadoDto) -> str:
         "nome": usuarioAutenticadoDto.nome,
         "email": usuarioAutenticadoDto.email,
         "perfil": usuarioAutenticadoDto.perfil,
+        "exp": datetime.now() + timedelta(days=1)
     }
     secret_key = os.getenv("JWT_TOKEN_SECRET_KEY")
     return jwt.encode(dados_token, secret_key, "HS256")
