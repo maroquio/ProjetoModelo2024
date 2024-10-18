@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 import bcrypt
 from fastapi import APIRouter, Request, status
 from fastapi.responses import RedirectResponse
@@ -9,6 +9,7 @@ from models.usuario_model import Usuario
 from repositories.usuario_repo import UsuarioRepo
 from util.auth import adicionar_token_jwt, criar_token_jwt
 from util.mensagens import adicionar_mensagem_erro, adicionar_mensagem_sucesso
+from util.validators import *
 
 
 router = APIRouter()
@@ -30,7 +31,7 @@ async def get_root(request: Request):
 
 
 @router.get("/cadastrar")
-async def get_entrar(request: Request):
+async def get_cadastrar(request: Request):
     perfis = [
         {"value": 1, "label": "Aluno"},
         {"value": 2, "label": "Professor"},
@@ -48,19 +49,30 @@ async def post_cadastrar(request: Request):
     dados["data_nascimento"] = date.fromisoformat(dados["data_nascimento"])
     dados["perfil"] = int(dados["perfil"])
     # validar dados do formulário
-    erros = []
-    if dados["senha"] == dados["confirmacao_senha"]:
+    erros = {}
+    # validação da senha igual à confirmação da senha
+    if is_matching_fields(dados["senha"], "senha", "Senha", dados["confirmacao_senha"], "Confirmação de Senha", erros):
         dados.pop("confirmacao_senha")
-    else:
-        erros.append("As senhas não conferem.")
+    # validação do nome
+    is_person_fullname(dados["nome"], "nome", "Nome", erros)
+    is_size_between(dados["nome"], "nome", "Nome", erros)
+    # validação da data de nascimento
+    data_minima = datetime.now() - timedelta(days=365 * 130)
+    data_maxima = datetime.now() - timedelta(days=365 * 18)
+    is_date_between(dados["data_nascimento"], "data_nascimento", "Data de Nascimento", data_minima, data_maxima, erros)
+    # validação do email
+    is_email(dados["email"], "email", "E-mail", erros)
+    # validação do telefone
+    is_size_between(dados["telefone"], "telefone", "Telefone", 14, 15, erros)    
+    # validação da senha
+    is_password(dados["senha"], "senha", "Senha", erros)
+    # montagem da exibição dos erros
     if erros:
-        response = RedirectResponse("/cadastrar", status.HTTP_303_SEE_OTHER)
-        html = "<h6>Erros encontrados:</h6>"
-        html += "<ul>"
-        for erro in erros:
-            html += f"<li>{erro}</li>"
-        html += "</ul>"
-        adicionar_mensagem_erro(response, html)
+        response = templates.TemplateResponse(
+            "pages/cadastrar.html",
+            {"request": request, "dados": dados, "erros": erros},
+        )
+        adicionar_mensagem_erro(response, "Há erros no formulário. Corrija-os e tente novamente.")
         return response
     # criptografar a senha com bcrypt
     senha_hash = bcrypt.hashpw(dados["senha"].encode(), bcrypt.gensalt())

@@ -11,10 +11,10 @@
             </div>
             <div class="card-body pb-0">
                 <div class="row g-3">
-                    {{ input_text("nome", "Nome Completo", "required autofocus", div_classes="col-12 col-lg-6") }}
+                    {{ input_text("nome", "Nome Completo", "required autofocus data-mask='nome'", div_classes="col-12 col-lg-6") }}
                     {{ input_date("data_nascimento", "Data de Nascimento", "required", div_classes="col-12 col-lg-6") }}
                     {{ input_email("email", "E-mail", "required", div_classes="col-12 col-lg-6") }}
-                    {{ input_text("telefone", "Telefone", "required", div_classes="col-12 col-lg-6") }}
+                    {{ input_text("telefone", "Telefone", "required data-mask='telefone'", div_classes="col-12 col-lg-6") }}
                     {{ input_password("senha", "Senha", "required", div_classes="col-12 col-lg-6") }}
                     {{ input_password("confirmacao_senha", "Confirmação de Senha", "required", div_classes="col-12 col-lg-6") }}
                     {{ input_radios("perfil", "Perfil", perfis, "required", div_classes="col-12") }}
@@ -29,4 +29,5 @@
         </div>
     </form>
 </div>
+<script src="/static/js/mascararCampos.js"></script>
 {% endblock %}
