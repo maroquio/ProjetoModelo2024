@@ -54,4 +54,5 @@ def tratar_excecoes(app: FastAPI):
             "detail": f"Erro interno do servidor.<br>{type(exc).__name__}: {exc}",
             "status_code": 500
         }
-        return templates.TemplateResponse("pages/erro.html", dados)
+        return templates.TemplateResponse(
+            "pages/erro.html", dados)
