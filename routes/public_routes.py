@@ -46,7 +46,7 @@ async def post_cadastrar(request: Request):
     # capturar os dados do formulário de cadastro como um dicionário
     dados = dict(await request.form())
     # normalizar os dados para tipificar os valores corretamente
-    dados["data_nascimento"] = date.fromisoformat(dados["data_nascimento"])
+    dados["data_nascimento"] = datetime.fromisoformat(dados["data_nascimento"])
     dados["perfil"] = int(dados["perfil"])
     # validar dados do formulário
     erros = {}
@@ -55,7 +55,7 @@ async def post_cadastrar(request: Request):
         dados.pop("confirmacao_senha")
     # validação do nome
     is_person_fullname(dados["nome"], "nome", "Nome", erros)
-    is_size_between(dados["nome"], "nome", "Nome", erros)
+    is_size_between(dados["nome"], "nome", "Nome", 4, 128, erros)
     # validação da data de nascimento
     data_minima = datetime.now() - timedelta(days=365 * 130)
     data_maxima = datetime.now() - timedelta(days=365 * 18)
@@ -68,9 +68,13 @@ async def post_cadastrar(request: Request):
     is_password(dados["senha"], "senha", "Senha", erros)
     # montagem da exibição dos erros
     if erros:
+        perfis = [
+            {"value": 1, "label": "Aluno"},
+            {"value": 2, "label": "Professor"},
+        ]
         response = templates.TemplateResponse(
             "pages/cadastrar.html",
-            {"request": request, "dados": dados, "erros": erros},
+            {"request": request, "perfis": perfis, "dados": dados, "erros": erros}, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
         )
         adicionar_mensagem_erro(response, "Há erros no formulário. Corrija-os e tente novamente.")
         return response
@@ -87,7 +91,7 @@ async def post_cadastrar(request: Request):
         adicionar_mensagem_sucesso(response, "Cadastro realizado com sucesso!")
         return response
     # se não inseriu, redirecionar para a página de cadastro com mensagem de erro
-    else:
+    else:        
         response = RedirectResponse("/cadastrar", status.HTTP_303_SEE_OTHER)
         adicionar_mensagem_erro(
             response,
