@@ -9,4 +9,4 @@ class Mensagem:
     id_remetente: Optional[int] = None
     id_destinatario: Optional[int] = None
     conteudo: Optional[str] = None
-    data_hora: Optional[datetime] = None    
+    data_hora: Optional[datetime] = None

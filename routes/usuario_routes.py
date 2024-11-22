@@ -154,9 +154,11 @@ async def get_detalhes(request: Request, id: int = Path()):
     )
 
 @router.get("/conversar/{id_destinatario}")
-async def get_conversar(request: Request, id_destinatario: int = Path()):    
+async def get_conversar(
+    request: Request, 
+    id_destinatario: int = Path()):
+    remetente = request.state.usuario    
     destinatario = UsuarioRepo.obter_por_id(id_destinatario)
-    remetente = request.state.usuario
     mensagens = MensagemRepo.obter_conversa(remetente.id, destinatario.id)
     return templates.TemplateResponse(
         "pages/usuario/conversar.html",
@@ -164,9 +166,12 @@ async def get_conversar(request: Request, id_destinatario: int = Path()):
     )
 
 @router.post("/conversar/{id_destinatario}")
-async def post_conversar(request: Request, id_destinatario: int = Path(), mensagem: str = Form(...)):
-    destinatario = UsuarioRepo.obter_por_id(id_destinatario)
+async def post_conversar(
+    request: Request, 
+    id_destinatario: int = Path(), 
+    mensagem: str = Form(...)):
     remetente = request.state.usuario
+    destinatario = UsuarioRepo.obter_por_id(id_destinatario)
     obj_mensagem = Mensagem(None, remetente.id, destinatario.id, mensagem, None)
     MensagemRepo.inserir(obj_mensagem)
     return RedirectResponse(f"/usuario/conversar/{id_destinatario}", 303)
