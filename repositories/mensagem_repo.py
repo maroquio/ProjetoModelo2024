@@ -21,8 +21,7 @@ class MensagemRepo:
                 (
                     mensagem.id_remetente,
                     mensagem.id_destinatario,
-                    mensagem.conteudo,
-                    mensagem.data_nascimento,                    
+                    mensagem.conteudo,                    
                 ),
             )
             if cursor.rowcount == 0:

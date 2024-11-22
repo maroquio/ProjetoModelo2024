@@ -1,0 +1,19 @@
+{% extends "shared/base_privada.html" %}
+{% from "shared/macros.html" import input_textarea %}
+{% block subtitulo %}Conversar com {{destinatario.nome}}{% endblock %}
+{% block conteudo %}
+<h1>Conversar com <span class="text-primary">{{destinatario.nome}}</span></h1>
+<hr>
+<form method="post" class="col-12 col-lg-6">
+    <div class="row g-3 mb-3">
+        {{ input_textarea("mensagem", "Mensagem", "required autofocus") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{% for m in mensagens %}
+<div class="card mt-2 p-2">
+    <p class="small m-0">{{m.data_hora}}</p>
+    <p class="m-0">{{m.conteudo}}</p>
+</div>
+{% endfor %}
+{% endblock %}

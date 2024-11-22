@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 
@@ -9,4 +9,4 @@ class Mensagem:
     id_remetente: Optional[int] = None
     id_destinatario: Optional[int] = None
     conteudo: Optional[str] = None
-    data_hora: Optional[date] = None    
+    data_hora: Optional[datetime] = None    

@@ -4,7 +4,9 @@ from fastapi import APIRouter, Form, Path, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from models.mensagem_model import Mensagem
 from models.usuario_model import Usuario
+from repositories.mensagem_repo import MensagemRepo
 from repositories.usuario_repo import UsuarioRepo
 from util.auth import adicionar_token_jwt, criar_token_jwt, remover_token_jwt
 from util.json import carregar_json
@@ -150,3 +152,21 @@ async def get_detalhes(request: Request, id: int = Path()):
         "pages/usuario/detalhes.html",
         {"request": request, "detalhes": usuario},
     )
+
+@router.get("/conversar/{id_destinatario}")
+async def get_conversar(request: Request, id_destinatario: int = Path()):    
+    destinatario = UsuarioRepo.obter_por_id(id_destinatario)
+    remetente = request.state.usuario
+    mensagens = MensagemRepo.obter_conversa(remetente.id, destinatario.id)
+    return templates.TemplateResponse(
+        "pages/usuario/conversar.html",
+        {"request": request, "destinatario": destinatario, "mensagens": mensagens},
+    )
+
+@router.post("/conversar/{id_destinatario}")
+async def post_conversar(request: Request, id_destinatario: int = Path(), mensagem: str = Form(...)):
+    destinatario = UsuarioRepo.obter_por_id(id_destinatario)
+    remetente = request.state.usuario
+    obj_mensagem = Mensagem(None, remetente.id, destinatario.id, mensagem, None)
+    MensagemRepo.inserir(obj_mensagem)
+    return RedirectResponse(f"/usuario/conversar/{id_destinatario}", 303)

@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI
 from fastapi.staticfiles import StaticFiles
+from repositories.mensagem_repo import MensagemRepo
 from repositories.usuario_repo import UsuarioRepo
 from routes.public_routes import router as public_router
 from routes.usuario_routes import router as usuario_router
@@ -12,6 +13,7 @@ from util.exceptions import tratar_excecoes
 
 load_dotenv()
 UsuarioRepo.criar_tabela()
+MensagemRepo.criar_tabela()
 app = FastAPI(dependencies=[Depends(checar_autorizacao)])
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.middleware("http")(checar_autenticacao)
