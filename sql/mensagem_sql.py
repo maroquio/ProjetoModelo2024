@@ -14,8 +14,10 @@ SQL_INSERIR = """
 """
 
 SQL_OBTER_CONVERSA = """
-    SELECT conteudo, data_hora
+    SELECT id_remetente, conteudo, data_hora
     FROM mensagem
-    WHERE id_remetente = ? AND id_destinatario = ?
+    WHERE 
+    (id_remetente = ? AND id_destinatario = ?) OR
+    (id_remetente = ? AND id_destinatario = ?)
     ORDER BY data_hora DESC
 """

@@ -33,7 +33,8 @@ class MensagemRepo:
     def obter_conversa(id_remetente: int, id_destinatario: int) -> list[Mensagem]:
         with obter_conexao() as db:
             cursor = db.cursor()
-            cursor.execute(SQL_OBTER_CONVERSA, (id_remetente, id_destinatario))
+            cursor.execute(SQL_OBTER_CONVERSA, 
+                           (id_remetente, id_destinatario, id_destinatario, id_remetente))
             dados = cursor.fetchall()
             if dados is None:
                 return []

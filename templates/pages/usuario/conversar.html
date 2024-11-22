@@ -1,19 +1,42 @@
 {% extends "shared/base_privada.html" %}
-{% from "shared/macros.html" import input_textarea %}
+{% from "shared/macros.html" import input_text %}
 {% block subtitulo %}Conversar com {{destinatario.nome}}{% endblock %}
 {% block conteudo %}
 <h1>Conversar com <span class="text-primary">{{destinatario.nome}}</span></h1>
 <hr>
-<form method="post" class="col-12 col-lg-6">
+<form method="post">
     <div class="row g-3 mb-3">
-        {{ input_textarea("mensagem", "Mensagem", "required autofocus") }}
+        <div class="input-group">
+            <div class="form-floating">
+                <input type="text" name="mensagem" id="mensagem" class="form-control" placeholder=" " autofocus>
+                <label for="mensagem">Mensagem</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
+
 </form>
-{% for m in mensagens %}
-<div class="card mt-2 p-2">
-    <p class="small m-0">{{m.data_hora}}</p>
-    <p class="m-0">{{m.conteudo}}</p>
+<hr>
+<div class="border border-1 rounded bg-info-subtle p-3 overflow-y-auto" style="height: 250px;">
+    <div class="row">
+        {% for m in mensagens %}
+        {% if usuario.id != m.id_remetente %}
+        <div class="col-11 offset-1 mt-3">
+            <div class="border border-1 rounded p-2 bg-secondary-subtle w-100">
+                <p class="small m-0">{{m.data_hora}}</p>
+                <p class="m-0">{{m.conteudo}}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-11 mt-3">
+            <div class="border border-1 rounded p-2 bg-light text-end w-100">
+                <p class="small m-0">{{m.data_hora}}</p>
+                <p class="m-0">{{m.conteudo}}</p>
+            </div>
+        </div>
+        <div class="col-2"></div>
+        {% endif %}
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
 {% endblock %}

@@ -5,14 +5,14 @@
 <hr>
 <div class="card">
     <div class="card-header">
-        <h2>Nome: {{detalhes.nome}}</h2>
+        <h2>{{detalhes.nome}}</h2>
     </div>
     <div class="card-body">
-        <p class="lead">Telefone: {{detalhes.telefone}}</p>
-        <p class="lead">E-mail: {{detalhes.email}}</p>
-        <p class="lead">Data Nasc.: {{detalhes.data_nascimento}}</p>
+        <p class="lead"><b>Telefone:</b> {{detalhes.telefone}}</p>
+        <p class="lead"><b>E-mail:</b> {{detalhes.email}}</p>
+        <p class="lead mb-0"><b>Data de Nascimento:</b> {{detalhes.data_nascimento}}</p>
     </div>
-    <div class="card-footer">
+    <div class="card-footer p-3">
         <a href="/usuario/conversar/{{detalhes.id}}" class="btn btn-primary">Conversar</a>
     </div>
 </div>
