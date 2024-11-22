@@ -60,7 +60,8 @@ class UsuarioRepo:
             dados = cursor.fetchone()
             if dados is None:
                 return None
-            return Usuario(**dados)
+            usuario = Usuario(**dados)
+            return usuario
 
     @staticmethod
     def atualizar_dados(usuario: Usuario) -> bool:
@@ -100,3 +101,13 @@ class UsuarioRepo:
             cursor = db.cursor()
             cursor.execute(SQL_EXCLUIR, (id,))
             return cursor.rowcount > 0
+
+    @staticmethod
+    def obter_por_perfil(perfil: int) -> list[Usuario]:
+        with obter_conexao() as db:
+            cursor = db.cursor()
+            cursor.execute(SQL_OBTER_POR_PERFIL, (perfil,))
+            dados = cursor.fetchall()
+            if dados is None:
+                return []
+            return [Usuario(**usuario) for usuario in dados]

@@ -1,0 +1,19 @@
+{% extends "shared/base_privada.html" %}
+{% block subtitulo %}Detalhes de {{detalhes.nome}}{% endblock %}
+{% block conteudo %}
+<h1>Detalhes de <span class="text-primary">{{detalhes.nome}}</span></h1>
+<hr>
+<div class="card">
+    <div class="card-header">
+        <h2>Nome: {{detalhes.nome}}</h2>
+    </div>
+    <div class="card-body">
+        <p class="lead">Telefone: {{detalhes.telefone}}</p>
+        <p class="lead">E-mail: {{detalhes.email}}</p>
+        <p class="lead">Data Nasc.: {{detalhes.data_nascimento}}</p>
+    </div>
+    <div class="card-footer">
+        <a href="/" class="btn btn-primary">Voltar para Home</a>
+    </div>
+</div>
+{% endblock %}

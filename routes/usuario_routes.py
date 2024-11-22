@@ -1,6 +1,6 @@
 from datetime import date
 import bcrypt
-from fastapi import APIRouter, Form, Request, status
+from fastapi import APIRouter, Form, Path, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
@@ -142,3 +142,11 @@ async def get_sair(request: Request):
     response = RedirectResponse("/", status.HTTP_303_SEE_OTHER)
     remover_token_jwt(response)
     return response
+
+@router.get("/{id}")
+async def get_detalhes(request: Request, id: int = Path()):    
+    usuario = UsuarioRepo.obter_por_id(id)
+    return templates.TemplateResponse(
+        "pages/usuario/detalhes.html",
+        {"request": request, "detalhes": usuario},
+    )

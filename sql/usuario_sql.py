@@ -56,3 +56,9 @@ SQL_EXCLUIR = """
     DELETE FROM usuario
     WHERE id = ?
 """
+
+SQL_OBTER_POR_PERFIL = """
+    SELECT id, nome, data_nascimento, email, telefone, perfil, tema
+    FROM usuario
+    WHERE perfil = ?
+"""
