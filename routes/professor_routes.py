@@ -16,6 +16,6 @@ async def get_root(request: Request):
     )
 
 @router.get("/alunos")
-async def get_professores(request: Request):
+async def get_alunos(request: Request):
     alunos = UsuarioRepo.obter_por_perfil(1)
     return templates.TemplateResponse("pages/professor/alunos.html", {"request": request, "alunos": alunos})
